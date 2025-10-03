@@ -9,17 +9,27 @@ const getEventById = (id, callback) => {
     return Event.findEventById(id, callback);
 }
 
+const getEventByApiKey = (apiKey, callback) => {
+    return Event.findEventByApiKey(apikey, callback);
+}
+
 const saveEvent = (event, callback) => {
     return Event.saveEvent(event, callback);
 }
 
-const updateEvents = (id, event, callback) => {
-    return Event.updateEvents(id, event, callback);
+const updateEvent = (id, event, callback) => {
+    return Event.updateEvent(id, event, callback);
+}
+
+const deleteEvent = (id, callback) => {
+    return Event.deleteEvent(id, callback);
 }
 
 module.exports = {
     getAllEvents,
     getEventById,
+    getEventByApiKey,
     saveEvent,
-    updateEvents
+    updateEvent,
+    deleteEvent
 }

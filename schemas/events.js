@@ -29,7 +29,19 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true,
         enum: ['Expense', 'Income'],
-    }
+    },
+    /*password: {
+        type: String,
+        required: true,
+    },
+    apiKey: {
+        type: String,
+    },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'admin',
+    }*/
 })
 
 const Event = mongoose.model('Event', eventSchema);
@@ -74,6 +86,19 @@ const findAllEvents = (callback) =>{
         });
     }
 
+    const findEventByApiKey = (apiKey, callback) => { 
+        Event.findOne({ apiKey })
+       .then(result => {
+        console.log('🔍 Encontrado:', result);
+        return callback(null, result);
+       })
+       .catch(err => {
+        console.error(err);
+        console.log('🔍 Error:', err);
+        return callback(err);
+       });
+    }
+
     const updateEvent = (id, event, callback) => {
             Event.findOneAndUpdate({ id }, event, {new: true}) 
         .then(result =>{
@@ -86,13 +111,27 @@ const findAllEvents = (callback) =>{
         });
  }
 
+ const deleteEvent = (id, callback) => {
+    Event.findOneAndDelete({ id })
+    .then(result =>{
+        console.log('📋 Eliminado:', result);
+        return callback(null, result);
+    })
+    .catch(err =>{
+        console.error(err);
+        return callback(err);
+    });
+}
+
+
 
 module.exports = {
     Event,
     saveEvent,
     findAllEvents,
     findEventById,
-    updateEvent
-
+    findEventByApiKey,
+    updateEvent,
+    deleteEvent
 }
 
